@@ -38,8 +38,10 @@ export default function RegisterUser() {
   const [lastName, setlastName] = useState("");
   const [userEmail, setuserEmail] = useState("");
   const [userPassword, setuserPassword] = useState("");
+  const [formSubmitMessage, setformSubmitMessage] = useState("");
 
   const handleSubmit = async (event) => {
+    setformSubmitMessage('');
     event.preventDefault();
     // const data = new FormData(event.currentTarget);
     // console.log({
@@ -52,7 +54,6 @@ export default function RegisterUser() {
       email_address: userEmail,
       password: userPassword,
     };
-    console.log(JSON.stringify(data));
     try {
       let res = await fetch(
         "http://localhost/contribution/wp-json/auth/register",
@@ -62,12 +63,16 @@ export default function RegisterUser() {
         }
       );
       let resJson = await res.json();
-      console.log(resJson);
-      if (res.status === 200) {
-        console.log("successfully");
-      } else {
-        console("Some error occured");
+
+      setformSubmitMessage(resJson.data.message)
+
+      if(resJson.success == true){
+        setfirstName("");
+        setlastName("");
+        setuserEmail("");
+        setuserPassword("");
       }
+   
     } catch (err) {
       console.log(err);
     }
@@ -102,6 +107,7 @@ export default function RegisterUser() {
                 <TextField
                   autoComplete="given-name"
                   name="firstName"
+                  value={firstName}
                   required
                   fullWidth
                   id="firstName"
@@ -117,6 +123,7 @@ export default function RegisterUser() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
+                  value={lastName}
                   autoComplete="family-name"
                   onChange={(event) => setlastName(event.target.value)}
                 />
@@ -128,6 +135,7 @@ export default function RegisterUser() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  value={userEmail}
                   autoComplete="email"
                   onChange={(event) => setuserEmail(event.target.value)}
                 />
@@ -137,6 +145,7 @@ export default function RegisterUser() {
                   required
                   fullWidth
                   name="password"
+                  value={userPassword}
                   label="Password"
                   type="password"
                   id="password"
@@ -145,12 +154,7 @@ export default function RegisterUser() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
+                <p>{formSubmitMessage}</p>
               </Grid>
             </Grid>
             <Button
