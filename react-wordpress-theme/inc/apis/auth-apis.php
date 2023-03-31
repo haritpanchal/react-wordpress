@@ -1,4 +1,9 @@
 <?php
+/**
+ * Auth APIs file.
+ *
+ * @package WordPress
+ */
 
 /**
  * API regiser calback.
@@ -7,9 +12,7 @@
  */
 function user_register_callback( WP_REST_Request $request ) {
 	$data = json_decode( $request->get_body(), true );
-	// echo '<pre>';
-	// var_dump( $data['first_name'] );
-	// exit;
+
 	$response = array();
 
 	if ( ! empty( $data['first_name'] ) ) {
@@ -86,7 +89,37 @@ function user_register_callback( WP_REST_Request $request ) {
  * @param WP_REST_Request $request request.
  */
 function user_login_callback( WP_REST_Request $request ) {
-	echo 'here';
-	exit;
+	$data = json_decode( $request->get_body(), true );
+
+	$response = array();
+	if ( ! empty( $data['username'] ) ) {
+		$username = sanitize_email( $data['username'] );
+		if ( ! is_email( $username ) ) {
+			$response['message'] = 'Invalid email';
+			return wp_send_json_error( $response );
+		}
+	} else {
+		$response['message'] = 'Email address can not be empty';
+		return wp_send_json_error( $response );
+	}
+
+	$username = $data['username'];
+	$password = $data['password'];
+	$creds    = array(
+		'user_login'    => $username,
+		'user_password' => $password,
+	);
+
+	$user = wp_signon( $creds, false );
+
+	if ( is_wp_error( $user ) ) {
+		$response['message'] = $user->get_error_message();
+		return wp_send_json_error( $response );
+	} else {
+		$response['message']    = 'Login successful';
+		$response['data']['id'] = base64_encode( $username );
+		return wp_send_json_success( $response );
+	}
+
 }
 

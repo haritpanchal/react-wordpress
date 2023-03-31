@@ -1,4 +1,9 @@
 <?php
+/**
+ * Routes file.
+ *
+ * @package WordPress
+ */
 
 /**
  * API Route created.
@@ -21,6 +26,14 @@ function api_vendor_cms_callback() {
 		array(
 			'methods'  => 'POST',
 			'callback' => 'user_register_callback',
+		)
+	);
+	register_rest_route(
+		'user',
+		'/getDetails',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'get_user_details_callback',
 		)
 	);
 }

@@ -31,10 +31,8 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function RegisterUser() {
-  const [firstName, setfirstName] = useState("");
-  const [lastName, setlastName] = useState("");
-  const [userEmail, setuserEmail] = useState("");
+export default function LoginUser() {
+  const [userName, setuserName] = useState("");
   const [userPassword, setuserPassword] = useState("");
   const [formSubmitMessage, setformSubmitMessage] = useState("");
   const navigate = useNavigate();
@@ -42,16 +40,13 @@ export default function RegisterUser() {
   const handleSubmit = async (event) => {
     setformSubmitMessage("");
     event.preventDefault();
-
     const data = {
-      first_name: firstName,
-      second_name: lastName,
-      email_address: userEmail,
+      username: userName,
       password: userPassword,
     };
     try {
       let res = await fetch(
-        "http://localhost/contribution/wp-json/auth/register",
+        "http://localhost/contribution/wp-json/auth/login",
         {
           method: "POST",
           body: JSON.stringify(data),
@@ -60,17 +55,14 @@ export default function RegisterUser() {
       let resJson = await res.json();
 
       setformSubmitMessage(resJson.data.message);
-
+      const token = resJson.data.data.id;
       if (resJson.success === true) {
-        setfirstName("");
-        setlastName("");
-        setuserEmail("");
-        setuserPassword("");
+        localStorage.setItem("token", token);
 
-        setTimeout(
-          () => navigate("/login"), 
-          1000
-        );
+        navigate("/admin")
+        
+        setuserName("");
+        setuserPassword("");
       }
     } catch (err) {
       console.log(err);
@@ -93,7 +85,7 @@ export default function RegisterUser() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign In
           </Typography>
           <Box
             component="form"
@@ -102,31 +94,6 @@ export default function RegisterUser() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  value={firstName}
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                  onChange={(event) => setfirstName(event.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  value={lastName}
-                  autoComplete="family-name"
-                  onChange={(event) => setlastName(event.target.value)}
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
@@ -134,9 +101,9 @@ export default function RegisterUser() {
                   id="email"
                   label="Email Address"
                   name="email"
-                  value={userEmail}
+                  value={userName}
                   autoComplete="email"
-                  onChange={(event) => setuserEmail(event.target.value)}
+                  onChange={(event) => setuserName(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -166,7 +133,9 @@ export default function RegisterUser() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to={"/login"}>Already have an account? Sign in</Link>
+                <Link to={"/register"}>
+                  Don't have account? Register your self
+                </Link>
               </Grid>
             </Grid>
           </Box>
