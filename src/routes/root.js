@@ -1,11 +1,12 @@
+import { Avatar } from "@mui/material";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import stringAvatar from "../common/Avtar";
 
 export default function Root() {
   const navigate = useNavigate();
   const logoutHandler = async () => {
     await localStorage.removeItem("token");
-	navigate("/login");
-    
+    navigate("/login");
   };
   const userToken = localStorage.getItem("token");
   return (
@@ -66,6 +67,7 @@ export default function Root() {
             )}
           </ul>
         </nav>
+        <div>{userToken && <Avatar {...stringAvatar("Harit Panchal")} />}</div>
       </div>
       <div id="detail">
         <Outlet />

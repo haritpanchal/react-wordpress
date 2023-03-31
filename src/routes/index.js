@@ -1,13 +1,8 @@
 export default function Index() {
-	return (
-	  <p id="zero-state">
-		This is a Home page.
-		<br />
-		Check out{" "}
-		<a href="https://reactrouter.com">
-		  the docs at reactrouter.com
-		</a>
-		.
-	  </p>
-	);
-  }
+  return (
+    <>
+      <h2>Welcome</h2>
+      <h4>This is react demo project</h4>
+    </>
+  );
+}
