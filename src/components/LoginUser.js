@@ -59,8 +59,8 @@ export default function LoginUser() {
       if (resJson.success === true) {
         localStorage.setItem("token", token);
 
-        navigate("/admin")
-        
+        navigate("/admin");
+
         setuserName("");
         setuserPassword("");
       }

@@ -11,7 +11,6 @@ function createData(firstName, lastName) {
   return { firstName, lastName };
 }
 
-
 export default function BasicTable() {
   const email_address = atob(localStorage.getItem("token"));
   const [firstName, setFirstName] = useState("");
@@ -21,12 +20,16 @@ export default function BasicTable() {
   const [isLoading, setIsLoading] = useState(false);
   const data = {
     email_address,
-};
-const rows = [createData("First name", firstName), createData("Second Name", lastName), createData("Email", email)];
+  };
+  const rows = [
+    createData("First name", firstName),
+    createData("Second Name", lastName),
+    createData("Email", email),
+  ];
 
   useEffect(() => {
     (async () => {
-		setIsLoading(true);
+      setIsLoading(true);
       const users = await fetch(
         "http://localhost/contribution/wp-json/user/getDetails",
         {
@@ -35,13 +38,13 @@ const rows = [createData("First name", firstName), createData("Second Name", las
         }
       );
       let resJson = await users.json();
-	  setIsLoading(false);
+      setIsLoading(false);
       if (resJson.success === true) {
         const { data } = resJson.data;
         setFirstName(data.first_name);
         setLastName(data.second_name);
         setEmail(data.email);
-		setuserFound(true)
+        setuserFound(true);
       }
     })();
   }, []);

@@ -67,10 +67,7 @@ export default function RegisterUser() {
         setuserEmail("");
         setuserPassword("");
 
-        setTimeout(
-          () => navigate("/login"), 
-          1000
-        );
+        setTimeout(() => navigate("/login"), 1000);
       }
     } catch (err) {
       console.log(err);

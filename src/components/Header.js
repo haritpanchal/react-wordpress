@@ -28,11 +28,11 @@ export default function ButtonAppBar() {
             <li>
               <Link to="/login">Login</Link>
             </li>
-              <li>
-				<Link to="/register">Register</Link>
-				</li>
+            <li>
+              <Link to="/register">Register</Link>
+            </li>
           </ul>
-		  <Outlet />
+          <Outlet />
         </Toolbar>
       </AppBar>
     </Box>
