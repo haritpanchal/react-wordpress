@@ -33,6 +33,7 @@ function get_user_details_callback( WP_REST_Request $request ) {
 		$user_data['first_name']  = $first_name;
 		$user_data['second_name'] = $second_name;
 		$user_data['email']       = $email;
+		$user_data['user_id']     = $user_id;
 
 		$response['message'] = 'Data listed successfully';
 		$response['data']    = $user_data;

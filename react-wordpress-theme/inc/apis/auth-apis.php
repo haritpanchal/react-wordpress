@@ -92,18 +92,29 @@ function user_login_callback( WP_REST_Request $request ) {
 	$data = json_decode( $request->get_body(), true );
 
 	$response = array();
+	$user_roles = array( 'student', 'business' );
 	if ( ! empty( $data['username'] ) ) {
 		$username = sanitize_email( $data['username'] );
 		if ( ! is_email( $username ) ) {
 			$response['message'] = 'Invalid email';
 			return wp_send_json_error( $response );
 		}
+		$user_obj = get_user_by('email', $username);
+
+		foreach ($user_obj->roles as $key => $value) {
+			if( !in_array($value, $user_roles) ){
+				$json['message'] = 'Invalid user role';
+				return wp_send_json_error( $json );
+			}
+        }   
 	} else {
-		$response['message'] = 'Email address can not be empty';
+		$response['message'] = 'Username can not be empty';
 		return wp_send_json_error( $response );
 	}
 
 	$username = $data['username'];
+	
+	
 	$password = $data['password'];
 	$creds    = array(
 		'user_login'    => $username,

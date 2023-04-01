@@ -23,7 +23,7 @@ export default function Admin() {
   const [userFound, setuserFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
+  console.log(userID);
   const data = {
     email_address,
   };
