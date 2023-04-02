@@ -14,6 +14,10 @@ This repository shows integration of React with WordPress
 2. [React Router](https://reactrouter.com/en/main)
 
 # App Screens
-Register
+<b>Register</b>
 
 ![Register screen](https://user-images.githubusercontent.com/48121565/229307832-484efd43-6edf-4937-bf39-8e22714f6921.png)
+
+<b>Login</b>
+
+![Login screen](https://user-images.githubusercontent.com/48121565/229357659-a2b18b96-e4a8-412f-8da5-87619f8b6230.png)
