@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -8,14 +7,11 @@ import { Context } from "../context/index";
 import { useNavigate } from "react-router-dom";
 
 function EditProfile() {
-  const { userId } = useParams();
   const { changeProdileBadge } = useContext(Context);
   const email_address = atob(localStorage.getItem("token"));
-  const [userID, setUserID] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userEmail, setuserEmail] = useState("");
-  const [userFound, setuserFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formSubmitMessage, setformSubmitMessage] = useState("");
 
@@ -38,8 +34,6 @@ function EditProfile() {
       setIsLoading(false);
       if (resJson.success === true) {
         const { data } = resJson.data;
-        setuserFound(true);
-        setUserID(data.user_id);
         setFirstName(data.first_name);
         setLastName(data.second_name);
         setuserEmail(data.email);
@@ -136,13 +130,13 @@ function EditProfile() {
         </Grid>
 
         <Grid>
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" color="success" >
             Update
           </Button>
 
           <Button
             type="button"
-            variant=""
+            variant="outlined"
             sx={{ ml: "10px" }}
             onClick={cancelCalback}
           >

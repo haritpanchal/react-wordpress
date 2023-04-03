@@ -37,6 +37,9 @@ export default function RegisterUser() {
   const [userEmail, setuserEmail] = useState("");
   const [userPassword, setuserPassword] = useState("");
   const [formSubmitMessage, setformSubmitMessage] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [bnText, setBtnText] = useState("Sign Up");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -50,6 +53,8 @@ export default function RegisterUser() {
       password: userPassword,
     };
     try {
+      setBtnText("Loading...");
+      setIsDisabled(true);
       let res = await fetch(
         "http://localhost/contribution/wp-json/auth/register",
         {
@@ -60,19 +65,26 @@ export default function RegisterUser() {
       let resJson = await res.json();
 
       setformSubmitMessage(resJson.data.message);
-
+      setIsDisabled(false);
+      setBtnText("Sign Up");
       if (resJson.success === true) {
+        // setIsDisabled(false)
+        // setBtnText('Sign Up')
         setfirstName("");
         setlastName("");
         setuserEmail("");
         setuserPassword("");
 
         setTimeout(() => navigate("/login"), 1000);
-      }
-      else{
-        setformSubmitMessage('Something wrong');
+      } else {
+        // setIsDisabled(false)
+        // setBtnText('Sign Up')
+        console.log(resJson.data.message);
+        setformSubmitMessage(resJson.data.message);
       }
     } catch (err) {
+      setIsDisabled(false);
+      setBtnText("Sign Up");
       console.log(err);
     }
   };
@@ -161,8 +173,9 @@ export default function RegisterUser() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isDisabled}
             >
-              Sign Up
+              {bnText}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

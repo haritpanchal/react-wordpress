@@ -5,12 +5,12 @@
  * @package WordPress
  */
 
-add_role( 'student', 'Student' );
-add_role( 'teacher', 'Teacher' );
+add_role( 'student', 'Student', get_role( 'subscriber' )->capabilities );
+add_role( 'teacher', 'Teacher', get_role( 'subscriber' )->capabilities );
 remove_role( 'superintendent' );
 remove_role( 'contributor' );
 remove_role( 'author' );
-// remove_role( 'subscriber' );
+remove_role( 'subscriber' );
 remove_role( 'editor' );
 
 /**

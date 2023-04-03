@@ -35,6 +35,8 @@ export default function LoginUser() {
   const [userName, setuserName] = useState("");
   const [userPassword, setuserPassword] = useState("");
   const [formSubmitMessage, setformSubmitMessage] = useState("");
+  const [btnText, setbtnText] = useState("Sign In");
+  const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -45,6 +47,8 @@ export default function LoginUser() {
       password: userPassword,
     };
     try {
+      setbtnText("Loading...");
+      setIsDisabled(true);
       let res = await fetch(
         "http://localhost/contribution/wp-json/auth/login",
         {
@@ -56,17 +60,23 @@ export default function LoginUser() {
 
       setformSubmitMessage(resJson.data.message);
       const token = resJson.data.data.id;
+
       if (resJson.success === true) {
         localStorage.setItem("token", token);
-
+        setbtnText("Sign In");
+        setIsDisabled(false);
         navigate("/admin");
 
         setuserName("");
         setuserPassword("");
       } else {
+        setbtnText("Sign In");
+        setIsDisabled(false);
         setformSubmitMessage("Something wrong");
       }
     } catch (err) {
+      setbtnText("Sign In");
+      setIsDisabled(false);
       console.log(err);
     }
   };
@@ -130,8 +140,9 @@ export default function LoginUser() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={isDisabled}
             >
-              Login
+              {btnText}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

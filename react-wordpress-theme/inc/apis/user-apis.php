@@ -30,13 +30,95 @@ function get_user_details_callback( WP_REST_Request $request ) {
 		$second_name = get_user_meta( $user_id, 'last_name', true ) ? get_user_meta( $user_id, 'last_name', true ) : '';
 		$email       = $user_obj->data->user_email;
 
+		$user_data['user_id']     = $user_id;
 		$user_data['first_name']  = $first_name;
 		$user_data['second_name'] = $second_name;
 		$user_data['email']       = $email;
-		$user_data['user_id']     = $user_id;
 
 		$response['message'] = 'Data listed successfully';
 		$response['data']    = $user_data;
 		wp_send_json_success( $response );
+	}
+}
+
+/**
+ * API update user details calback.
+ *
+ * @param WP_REST_Request $request request.
+ */
+function update_user_details_callback( WP_REST_Request $request ) {
+	$data = json_decode( $request->get_body(), true );
+
+	if ( ! empty( $data['first_name'] ) ) {
+		$first_name = sanitize_text_field( $data['first_name'] );
+	} else {
+		$response['message'] = 'First name can not be empty';
+		return wp_send_json_error( $response );
+	}
+
+	if ( ! empty( $data['second_name'] ) ) {
+		$second_name = sanitize_text_field( $data['second_name'] );
+	} else {
+		$response['message'] = 'Second name can not be empty';
+		return wp_send_json_error( $response );
+	}
+
+	$email_address = $data['email_address'];
+	if ( empty( $email_address ) ) {
+		$response['message'] = 'Email address can not be empty';
+		wp_send_json_error( $response );
+	}
+
+	$user_obj = get_user_by( 'email', $email_address );
+
+	if ( empty( $user_obj ) ) {
+		$response['message'] = 'User not found';
+		wp_send_json_error( $response );
+	} else {
+		$user_id = $user_obj->data->ID;
+		update_user_meta( $user_id, 'first_name', $first_name );
+		update_user_meta( $user_id, 'last_name', $second_name );
+
+		$user_data['user_id']     = $user_id;
+		$user_data['first_name']  = $first_name;
+		$user_data['second_name'] = $second_name;
+
+		$response['message'] = 'User updated successfully';
+		$response['data']    = $user_data;
+		wp_send_json_success( $response );
+	}
+}
+
+/**
+ * API deleete user calback.
+ *
+ * @param WP_REST_Request $request request.
+ */
+function delete_user_callback( WP_REST_Request $request ) {
+	$data = json_decode( $request->get_body(), true );
+
+	$email_address = $data['email_address'];
+	if ( empty( $email_address ) ) {
+		$response['message'] = 'Email address can not be empty';
+		wp_send_json_error( $response );
+	}
+
+	$user_obj = get_user_by( 'email', $email_address );
+
+	if ( empty( $user_obj ) ) {
+		$response['message'] = 'User not found';
+		wp_send_json_error( $response );
+	} else {
+		require_once ABSPATH . 'wp-admin/includes/user.php';
+
+		$user_id = $user_obj->data->ID;
+
+		if ( wp_delete_user( $user_id ) ) {
+			$response = 'User deleted successfully';
+			wp_send_json_success( $response );
+		} else {
+			$response = 'Something wrong';
+			wp_send_json_error( $response );
+		}
 	}
 }

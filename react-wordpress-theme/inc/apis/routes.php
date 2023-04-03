@@ -29,6 +29,14 @@ function api_vendor_cms_callback() {
 		)
 	);
 	register_rest_route(
+		'auth',
+		'/getAllUsers',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'get_all_users_callback',
+		)
+	);
+	register_rest_route(
 		'user',
 		'/getDetails',
 		array(
@@ -36,6 +44,23 @@ function api_vendor_cms_callback() {
 			'callback' => 'get_user_details_callback',
 		)
 	);
+	register_rest_route(
+		'user',
+		'/updateDetails',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'update_user_details_callback',
+		)
+	);
+	register_rest_route(
+		'user',
+		'/deleteUser',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'delete_user_callback',
+		)
+	);
+
 }
 add_action( 'rest_api_init', 'api_vendor_cms_callback' );
 

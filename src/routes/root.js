@@ -1,11 +1,11 @@
 import { Avatar } from "@mui/material";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import stringAvatar from "../common/Avtar";
-import { useContext } from 'react';
+import { useContext } from "react";
 import { Context } from "../context";
 
 export default function Root() {
-  const { proileBadge, changeProdileBadge } = useContext(Context);
+  const { proileBadge } = useContext(Context);
   const navigate = useNavigate();
   const logoutHandler = async () => {
     await localStorage.removeItem("token");
@@ -62,6 +62,9 @@ export default function Root() {
                   >
                     Account
                   </NavLink>
+                </li>
+                <li>
+                  <Link>Change Password</Link>
                 </li>
                 <li>
                   <Link onClick={logoutHandler}>Logout</Link>
