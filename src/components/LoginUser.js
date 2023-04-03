@@ -63,6 +63,8 @@ export default function LoginUser() {
 
         setuserName("");
         setuserPassword("");
+      } else {
+        setformSubmitMessage("Something wrong");
       }
     } catch (err) {
       console.log(err);
@@ -85,7 +87,7 @@ export default function LoginUser() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign In
+            Log In
           </Typography>
           <Box
             component="form"

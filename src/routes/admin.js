@@ -9,12 +9,15 @@ import { useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { Context } from "../context";
 
 function createData(firstName, lastName) {
   return { firstName, lastName };
 }
 
 export default function Admin() {
+  const { changeProdileBadge } = useContext(Context);
   const email_address = atob(localStorage.getItem("token"));
   const [userID, setUserID] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -23,7 +26,6 @@ export default function Admin() {
   const [userFound, setuserFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  console.log(userID);
   const data = {
     email_address,
   };
@@ -56,12 +58,12 @@ export default function Admin() {
       setIsLoading(false);
       if (resJson.success === true) {
         const { data } = resJson.data;
-        console.log(data);
         setuserFound(true);
         setUserID(data.user_id);
         setFirstName(data.first_name);
         setLastName(data.second_name);
         setEmail(data.email);
+        changeProdileBadge(data.first_name + ' ' + data.second_name)
       }
     })();
   }, []);

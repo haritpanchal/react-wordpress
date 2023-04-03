@@ -69,6 +69,9 @@ export default function RegisterUser() {
 
         setTimeout(() => navigate("/login"), 1000);
       }
+      else{
+        setformSubmitMessage('Something wrong');
+      }
     } catch (err) {
       console.log(err);
     }
