@@ -9,7 +9,7 @@ export default function Root() {
   const navigate = useNavigate();
   const logoutHandler = async () => {
     await localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
   const userToken = localStorage.getItem("token");
   return (
@@ -64,7 +64,14 @@ export default function Root() {
                   </NavLink>
                 </li>
                 <li>
-                  <Link>Change Password</Link>
+                  <NavLink
+                    className={({ isActive, isPending }) =>
+                      isActive ? "active" : isPending ? "pending" : ""
+                    }
+                    to={"/change-password"}
+                  >
+                    Change Password
+                  </NavLink>
                 </li>
                 <li>
                   <Link onClick={logoutHandler}>Logout</Link>

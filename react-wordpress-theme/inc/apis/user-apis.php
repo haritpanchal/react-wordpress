@@ -122,3 +122,49 @@ function delete_user_callback( WP_REST_Request $request ) {
 		}
 	}
 }
+
+/**
+ * API change password callback.
+ *
+ * @param WP_REST_Request $request request.
+ */
+function change_password_callback( WP_REST_Request $request ) {
+	$data = json_decode( $request->get_body(), true );
+
+	if ( ! empty( $data['password'] ) ) {
+		$password = $data['password'];
+	} else {
+		$response['message'] = 'Password can not be empty';
+		return wp_send_json_error( $response );
+	}
+
+	if ( ! empty( $data['confirm_password'] ) ) {
+		$confirm_password = $data['confirm_password'];
+	} else {
+		$response['message'] = 'Password can not be empty';
+		return wp_send_json_error( $response );
+	}
+
+	if ( ! empty( $data['email_address'] ) ) {
+		$email_address = sanitize_email( $data['email_address'] );
+		if ( ! is_email( $email_address ) ) {
+			$response['message'] = 'Invalid email';
+			return wp_send_json_error( $response );
+		}
+	} else {
+		$response['message'] = 'Email address can not be empty';
+		return wp_send_json_error( $response );
+	}
+
+	if ( $password !== $confirm_password ) {
+		$response['message'] = 'Both passwords are not matching';
+		return wp_send_json_error( $response );
+	} else {
+		$user_obj = get_user_by( 'email', $email_address );
+		$user_id  = $user_obj->data->ID;
+
+		wp_set_password( $password, $user_id );
+		$response['message'] = 'Password changed successfully';
+		return wp_send_json_success( $response );
+	}
+}

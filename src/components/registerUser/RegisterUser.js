@@ -75,7 +75,7 @@ export default function RegisterUser() {
         setuserEmail("");
         setuserPassword("");
 
-        setTimeout(() => navigate("/login"), 1000);
+        setTimeout(() => navigate("/"), 1000);
       } else {
         // setIsDisabled(false)
         // setBtnText('Sign Up')

@@ -9,6 +9,7 @@ import Index from "./routes/index";
 import Admin from "./routes/admin";
 import EditProfile from "./routes/editProfile";
 import ContextProvider from "./context";
+import ChangePassword from "./routes/changePassword";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "admin/",
         element: <Admin />,
+      },
+      {
+        path: "change-password/",
+        element: <ChangePassword/>,
       },
       {
         path: "admin/edit/:userId",

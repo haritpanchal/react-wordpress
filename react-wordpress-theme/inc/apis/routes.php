@@ -60,6 +60,14 @@ function api_vendor_cms_callback() {
 			'callback' => 'delete_user_callback',
 		)
 	);
+	register_rest_route(
+		'user',
+		'/changePassword',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'change_password_callback',
+		)
+	);
 
 }
 add_action( 'rest_api_init', 'api_vendor_cms_callback' );

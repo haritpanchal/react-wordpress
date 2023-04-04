@@ -85,7 +85,6 @@ export default function Admin() {
       }
     })();
   }, []);
-
   if (isLoading) {
     return <div>Loading...</div>;
   }

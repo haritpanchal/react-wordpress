@@ -113,7 +113,7 @@ function user_login_callback( WP_REST_Request $request ) {
 	$user = wp_signon( $creds, false );
 
 	if ( is_wp_error( $user ) ) {
-		$response['message'] = $user->get_error_message();
+		$response['message'] = 'Your password is incorrect';
 		return wp_send_json_error( $response );
 	} else {
 		$response['message']    = 'Login successful';
@@ -130,6 +130,19 @@ function user_login_callback( WP_REST_Request $request ) {
  */
 function get_all_users_callback( WP_REST_Request $request ) {
 	$response       = array();
+	$user_count     = 0;
 	$eligible_users = get_users( array( 'role__in' => array( 'student', 'teacher' ) ) );
-	return wp_send_json( $eligible_users );
+
+	foreach ( $eligible_users as $user ) {
+		$user_meta                   = get_user_meta( $user->data->ID );
+		$user_data['id']             = $user->data->ID;
+		$user_data['email']          = $user->data->user_email;
+		$user_data['first_name']     = get_user_meta( $user_data['id'], 'first_name', true ) ? get_user_meta( $user_data['id'], 'first_name', true ) : '';
+		$user_data['last_name']      = get_user_meta( $user_data['id'], 'last_name', true ) ? get_user_meta( $user_data['id'], 'last_name', true ) : '';
+		$user_details[ $user_count ] = $user_data;
+
+		$user_count++;
+	}
+
+	return wp_send_json( $user_details );
 }
