@@ -5,34 +5,31 @@ import Box from "@mui/material/Box";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import { LoadingButton } from "@mui/lab";
 
-const ChangePassword = () => {
-  const email_address = atob(localStorage.getItem("token"));
-  console.log(email_address);
-  const [password, setpassword] = useState("");
-  const [confirmPassword, setconfirmPassword] = useState("");
+const ForgotPassword = () => {
+  const [emailAddress, setEmailAddress] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formSubmitMessage, setformSubmitMessage] = useState("");
+  const [loadingState, setLoadingState] = useState(false);
 
   const navigate = useNavigate();
 
   const cancelCalback = () => {
-    navigate("/admin/");
+    navigate("/login/");
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log("submit");
 
     const data = {
-      email_address: email_address,
-      password: password,
-      confirm_password: confirmPassword,
+      email_address: emailAddress,
     };
     try {
       setIsLoading(true);
+      setLoadingState(true);
       let res = await fetch(
-        "http://localhost/contribution/wp-json/user/changePassword",
+        "http://localhost/contribution/wp-json/user/forgotPassword",
         {
           method: "POST",
           body: JSON.stringify(data),
@@ -40,17 +37,20 @@ const ChangePassword = () => {
       );
       let resJson = await res.json();
       setIsLoading(false);
+      setLoadingState(false);
 
       setformSubmitMessage(resJson.data.message);
 
       if (resJson.success === true) {
         console.log(resJson);
-        navigate("/admin");
+		localStorage.setItem("email", emailAddress);
+        setTimeout(() => {
+          navigate("/confirm-otp");
+        }, 2000);
       }
     } catch (err) {
       console.log(err);
     }
-    console.log(data);
   };
   return (
     <div>
@@ -59,29 +59,15 @@ const ChangePassword = () => {
           <Grid item xs={12}>
             <TextField
               autoComplete="given-name"
-              type="password"
-              name="password"
-              value={password}
+              type="email_address"
+              name="email_address"
+              value={emailAddress}
               required
               fullWidth
-              id="password"
-              label="Password"
+              id="email_address"
+              label="Enter Email"
               autoFocus
-              onChange={(event) => setpassword(event.target.value)}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              type="password"
-              id="confirmPassword"
-              label="Confirm Password"
-              name="confirmPassword"
-              value={confirmPassword}
-              autoComplete="family-name"
-              onChange={(event) => setconfirmPassword(event.target.value)}
+              onChange={(event) => setEmailAddress(event.target.value)}
             />
           </Grid>
           <Grid item xs={12}>
@@ -90,9 +76,15 @@ const ChangePassword = () => {
         </Grid>
 
         <Grid>
-          <Button type="submit" variant="contained" color="success">
-            Change
-          </Button>
+          <LoadingButton
+            loadingIndicator="Sending…"
+            type="submit"
+            variant="contained"
+            color="success"
+            loading={loadingState}
+          >
+            Send OTP
+          </LoadingButton>
 
           <Button
             type="button"
@@ -113,4 +105,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default ForgotPassword;

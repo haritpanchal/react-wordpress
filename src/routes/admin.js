@@ -165,8 +165,19 @@ export default function Admin() {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button  variant="outlined" color="success" onClick={handleClose}>Cancel</Button>
-                <Button  variant="outlined" color="error" onClick={deletHandler} autoFocus>
+                <Button
+                  variant="outlined"
+                  color="success"
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={deletHandler}
+                  autoFocus
+                >
                   Agree
                 </Button>
               </DialogActions>
@@ -179,7 +190,7 @@ export default function Admin() {
           )}
         </div>
       )}
-      {!userFound && "User not found"}
+      {!userFound && navigate("/")}
     </>
   );
 }

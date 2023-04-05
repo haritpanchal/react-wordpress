@@ -146,9 +146,7 @@ export default function LoginUser() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to={"/register"}>
-                  Don't have account? Register your self
-                </Link>
+                <Link to={"/forgot-password"}>Forgot password?</Link>
               </Grid>
             </Grid>
           </Box>
@@ -158,5 +156,3 @@ export default function LoginUser() {
     </ThemeProvider>
   );
 }
-
-// export default RegisterUser;

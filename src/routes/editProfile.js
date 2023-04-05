@@ -14,6 +14,7 @@ function EditProfile() {
   const [userEmail, setuserEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formSubmitMessage, setformSubmitMessage] = useState("");
+  const [userFound, setuserFound] = useState(false);
 
   const navigate = useNavigate();
   const data = {
@@ -34,6 +35,7 @@ function EditProfile() {
       setIsLoading(false);
       if (resJson.success === true) {
         const { data } = resJson.data;
+        setuserFound(true);
         setFirstName(data.first_name);
         setLastName(data.second_name);
         setuserEmail(data.email);
@@ -84,66 +86,69 @@ function EditProfile() {
   };
   return (
     <div>
-      <Box component="form" noValidate onSubmit={handleUpdate} sx={{ mt: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              autoComplete="given-name"
-              name="firstName"
-              value={firstName}
-              required
-              fullWidth
-              id="firstName"
-              label="First Name"
-              autoFocus
-              onChange={(event) => setFirstName(event.target.value)}
-            />
+      {userFound && (
+        <Box component="form" noValidate onSubmit={handleUpdate} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="given-name"
+                name="firstName"
+                value={firstName}
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+                onChange={(event) => setFirstName(event.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                value={lastName}
+                autoComplete="family-name"
+                onChange={(event) => setLastName(event.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                disabled
+                label="Email Address"
+                name="email"
+                value={userEmail}
+                autoComplete="email"
+                onChange={(event) => setuserEmail(event.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <p>{formSubmitMessage}</p>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              value={lastName}
-              autoComplete="family-name"
-              onChange={(event) => setLastName(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              id="email"
-              disabled
-              label="Email Address"
-              name="email"
-              value={userEmail}
-              autoComplete="email"
-              onChange={(event) => setuserEmail(event.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <p>{formSubmitMessage}</p>
-          </Grid>
-        </Grid>
 
-        <Grid>
-          <Button type="submit" variant="contained" color="success" >
-            Update
-          </Button>
+          <Grid>
+            <Button type="submit" variant="contained" color="success">
+              Update
+            </Button>
 
-          <Button
-            type="button"
-            variant="outlined"
-            sx={{ ml: "10px" }}
-            onClick={cancelCalback}
-          >
-            Cancel
-          </Button>
-        </Grid>
-      </Box>
+            <Button
+              type="button"
+              variant="outlined"
+              sx={{ ml: "10px" }}
+              onClick={cancelCalback}
+            >
+              Cancel
+            </Button>
+          </Grid>
+        </Box>
+      )}
+      {!userFound && navigate("/")}
     </div>
   );
 }

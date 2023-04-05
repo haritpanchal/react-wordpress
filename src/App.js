@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RegisterUser from "./components/registerUser/RegisterUser";
+import RegisterUser from "./components/RegisterUser";
 import LoginUser from "./components/LoginUser";
 import Root from "./routes/root";
 import ErrorPage from "./routes/error";
@@ -10,6 +10,9 @@ import Admin from "./routes/admin";
 import EditProfile from "./routes/editProfile";
 import ContextProvider from "./context";
 import ChangePassword from "./routes/changePassword";
+import ForgotPassword from "./routes/ForgotPassword";
+import ConfirmOTP from "./routes/ConfirmOTP";
+import ResetPassword from "./routes/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +36,19 @@ const router = createBrowserRouter([
       },
       {
         path: "change-password/",
-        element: <ChangePassword/>,
+        element: <ChangePassword />,
+      },
+      {
+        path: "forgot-password/",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "confirm-otp/",
+        element: <ConfirmOTP />,
+      },
+      {
+        path: "reset-password/",
+        element: <ResetPassword />,
       },
       {
         path: "admin/edit/:userId",

@@ -190,4 +190,3 @@ export default function RegisterUser() {
   );
 }
 
-// export default RegisterUser;

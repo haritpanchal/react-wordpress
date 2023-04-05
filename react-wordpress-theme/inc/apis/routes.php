@@ -68,8 +68,30 @@ function api_vendor_cms_callback() {
 			'callback' => 'change_password_callback',
 		)
 	);
+	register_rest_route(
+		'user',
+		'/forgotPassword',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'forgot_password_callback',
+		)
+	);
+	register_rest_route(
+		'user',
+		'/confirmOTP',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'confirm_otp_callback',
+		)
+	);
+	register_rest_route(
+		'user',
+		'/resetPassword',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'reset_password_callback',
+		)
+	);
 
 }
 add_action( 'rest_api_init', 'api_vendor_cms_callback' );
-
-

@@ -1,14 +1,13 @@
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 
-const ChangePassword = () => {
-  const email_address = atob(localStorage.getItem("token"));
-  console.log(email_address);
+const ResetPassword = () => {
+  const email_address = localStorage.getItem("email");
   const [password, setpassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +31,7 @@ const ChangePassword = () => {
     try {
       setIsLoading(true);
       let res = await fetch(
-        "http://localhost/contribution/wp-json/user/changePassword",
+        "http://localhost/contribution/wp-json/user/resetPassword",
         {
           method: "POST",
           body: JSON.stringify(data),
@@ -45,7 +44,8 @@ const ChangePassword = () => {
 
       if (resJson.success === true) {
         console.log(resJson);
-        navigate("/admin");
+        localStorage.removeItem("email");
+        navigate("/login");
       }
     } catch (err) {
       console.log(err);
@@ -113,4 +113,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default ResetPassword;
