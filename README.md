@@ -22,9 +22,3 @@ This repository shows integration of React with WordPress
 
 1. [Material UI](https://mui.com)
 2. [React Router](https://reactrouter.com/en/main)
-
-# App Screens
-
-`<b>`Register`</b>`
-
-![Register screen](https://user-images.githubusercontent.com/48121565/229307832-484efd43-6edf-4937-bf39-8e22714f6921.png)
