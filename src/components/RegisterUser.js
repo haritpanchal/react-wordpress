@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 function Copyright(props) {
   return (
@@ -39,6 +40,7 @@ export default function RegisterUser() {
   const [formSubmitMessage, setformSubmitMessage] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [bnText, setBtnText] = useState("Sign Up");
+  const [isError, setIsError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -68,8 +70,6 @@ export default function RegisterUser() {
       setIsDisabled(false);
       setBtnText("Sign Up");
       if (resJson.success === true) {
-        // setIsDisabled(false)
-        // setBtnText('Sign Up')
         setfirstName("");
         setlastName("");
         setuserEmail("");
@@ -77,20 +77,23 @@ export default function RegisterUser() {
 
         setTimeout(() => navigate("/"), 1000);
       } else {
-        // setIsDisabled(false)
-        // setBtnText('Sign Up')
-        console.log(resJson.data.message);
         setformSubmitMessage(resJson.data.message);
+        setIsError(true);
       }
     } catch (err) {
       setIsDisabled(false);
+      setIsError(true);
       setBtnText("Sign Up");
-      console.log(err);
     }
   };
 
   return (
     <ThemeProvider theme={theme}>
+      {isError && (
+        <Alert severity="warning" variant="filled">
+          Something wrong!! Refresh the page or try again later.
+        </Alert>
+      )}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -189,4 +192,3 @@ export default function RegisterUser() {
     </ThemeProvider>
   );
 }
-

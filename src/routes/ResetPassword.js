@@ -21,7 +21,6 @@ const ResetPassword = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log("submit");
 
     const data = {
       email_address: email_address,
@@ -43,15 +42,12 @@ const ResetPassword = () => {
       setformSubmitMessage(resJson.data.message);
 
       if (resJson.success === true) {
-        console.log(resJson);
         localStorage.removeItem("email");
         navigate("/login");
       }
-    } catch (err) {
-      console.log(err);
-    }
-    console.log(data);
+    } catch (err) {}
   };
+
   return (
     <div>
       <Box component="form" noValidate onSubmit={handleUpdate} sx={{ mt: 3 }}>
@@ -91,7 +87,7 @@ const ResetPassword = () => {
 
         <Grid>
           <Button type="submit" variant="contained" color="success">
-            Change
+            Save
           </Button>
 
           <Button

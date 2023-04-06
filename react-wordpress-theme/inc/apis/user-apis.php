@@ -200,6 +200,7 @@ function forgot_password_callback( WP_REST_Request $request ) {
 
 	update_user_meta( $user_id, 'user_otp_code', (int) $generated_otp );
 	update_user_meta( $user_id, 'user_otp_code_time', time() );
+	update_user_meta( $user_id, 'otp_sent', true );
 
 	$to      = $email_address;
 	$subject = 'OTP for Admin Panel';
@@ -234,38 +235,46 @@ function confirm_otp_callback( WP_REST_Request $request ) {
 			return wp_send_json_error( $response );
 		}
 	} else {
-		$response['message'] = 'Email address can not be empty';
+		$response['message'] = 'Enter email in previous tab';
 		return wp_send_json_error( $response );
-	}
-
-	$otp = $data['otp'];
-	if ( empty( $otp ) ) {
-		$response['message'] = 'OTP can not be empty';
-		wp_send_json_error( $response );
 	}
 
 	$user_obj = get_user_by( 'email', $email_address );
 	$user_id  = (int) $user_obj->data->ID;
 
-	$stored_otp          = get_user_meta( $user_id, 'user_otp_code', true ) ? (int) get_user_meta( $user_id, 'user_otp_code', true ) : '';
-	$generated_otp_time  = get_user_meta( $user_id, 'user_otp_code_time', true ) ? get_user_meta( $user_id, 'user_otp_code_time', true ) : '';
-	$current_time        = time();
-	$otp_time_difference = $current_time - $generated_otp_time;
-	$generated_otp       = (int) $otp;
+	$is_otp_sent = get_user_meta( $user_id, 'otp_sent', true ) ? (int) get_user_meta( $user_id, 'otp_sent', true ) : '';
+	if ( 1 === $is_otp_sent ) {
 
-	if ( $otp_time_difference > 60 ) {
-		$response['message'] = 'OTP expired. Resend?';
-		$response['resend']  = true;
-		wp_send_json_error( $response );
-	} else {
-		if ( $generated_otp !== $stored_otp ) {
-			$response['message'] = 'Invalid OTP';
+		$otp = $data['otp'];
+		if ( empty( $otp ) ) {
+			$response['message'] = 'OTP can not be empty';
+			wp_send_json_error( $response );
+		}
+
+		$stored_otp          = get_user_meta( $user_id, 'user_otp_code', true ) ? (int) get_user_meta( $user_id, 'user_otp_code', true ) : '';
+		$generated_otp_time  = get_user_meta( $user_id, 'user_otp_code_time', true ) ? get_user_meta( $user_id, 'user_otp_code_time', true ) : '';
+		$current_time        = time();
+		$otp_time_difference = $current_time - $generated_otp_time;
+		$generated_otp       = (int) $otp;
+
+		if ( $otp_time_difference > 60 ) {
+			$response['message'] = 'OTP expired. Resend?';
+			$response['resend']  = true;
 			wp_send_json_error( $response );
 		} else {
-			$response['message'] = 'OTP verified';
-			update_user_meta( $user_id, 'otp_verified', true );
-			wp_send_json_success( $response );
+			if ( $generated_otp !== $stored_otp ) {
+				$response['message'] = 'Invalid OTP';
+				wp_send_json_error( $response );
+			} else {
+				$response['message'] = 'OTP verified';
+				update_user_meta( $user_id, 'otp_verified', true );
+				update_user_meta( $user_id, 'otp_sent', false );
+				wp_send_json_success( $response );
+			}
 		}
+	} else {
+		$response['message'] = 'Did you receive the OTP?';
+		wp_send_json_error( $response );
 	}
 }
 
@@ -312,12 +321,13 @@ function reset_password_callback( WP_REST_Request $request ) {
 			$response['message'] = 'Both passwords are not matching';
 			return wp_send_json_error( $response );
 		} else {
+			update_user_meta( $user_id, 'otp_verified', false );
 			wp_set_password( $password, $user_id );
 
 			$to      = $email_address;
 			$subject = 'Password reset action';
 			$body    = '<h2>Hello ' . $username . '</h2>';
-			$body   .= '<p>Your attempt to reset password was successfull. You can now login to your account using that password.</p>';
+			$body   .= '<p>Your attempt to reset password was successful. You can now login to your account using that password.</p>';
 			$body   .= '<br/><p>Cheers</p>Team Admin Panel';
 			$headers = array( 'From: Sender <sender@example.com>', 'Content-Type: text/html; charset=UTF-8' );
 

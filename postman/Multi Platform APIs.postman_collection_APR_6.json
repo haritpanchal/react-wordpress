@@ -1,0 +1,311 @@
+{
+	"info": {
+		"_postman_id": "3e96bfcd-84da-4e19-ab3d-626eb43e27aa",
+		"name": "Multi Platform APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26351252"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "auth/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"panchalharit007@gmail.com\",\n    \"password\": \"Adsmin@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"Rylee\",\n    \"second_name\": \"Raynor\",\n    \"email_address\": \"your.email+fakedata74583@gmail.com\",\n    \"password\": \"McvcMl_yCjHC9Ya\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/getAllUsers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/auth/getAllUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"auth",
+								"getAllUsers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "user/getDetails",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_address\": \"panchalharit007@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/user/getDetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"user",
+								"getDetails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/updateDetails",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_address\": \"harit@mailinator.com\",\n    \"first_name\": \"Rylee\",\n    \"second_name\": \"Raynor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/user/updateDetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"user",
+								"updateDetails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/deleteUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_address\": \"your.email+fakedata74432@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/user/deleteUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"user",
+								"deleteUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/changePassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_address\": \"harit@mailinator.com\",\n    \"password\": \"Admin@123\",\n    \"confirm_password\": \"Admin@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/user/changePassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"user",
+								"changePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/forgotPassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_address\": \"harit@mailinator.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/user/forgotPassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"user",
+								"forgotPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/confirmOTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_address\": \"harit@mailinator.com\",\n    \"otp\" : 943164\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/user/confirmOTP",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"user",
+								"confirmOTP"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/resetPassword",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_address\": \"panchal@mailinator.com\",\n    \"password\": \"Admin@123\",\n    \"confirm_password\": \"Admin@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/contribution/wp-json/user/resetPassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"contribution",
+								"wp-json",
+								"user",
+								"resetPassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

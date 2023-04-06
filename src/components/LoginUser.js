@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 function Copyright(props) {
   return (
@@ -37,6 +38,7 @@ export default function LoginUser() {
   const [formSubmitMessage, setformSubmitMessage] = useState("");
   const [btnText, setbtnText] = useState("Sign In");
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -60,7 +62,6 @@ export default function LoginUser() {
 
       setformSubmitMessage(resJson.data.message);
       const token = resJson.data.data.id;
-
       if (resJson.success === true) {
         localStorage.setItem("token", token);
         setbtnText("Sign In");
@@ -75,14 +76,19 @@ export default function LoginUser() {
         setformSubmitMessage("Something wrong");
       }
     } catch (err) {
+      setIsError(true);
       setbtnText("Sign In");
       setIsDisabled(false);
-      console.log(err);
     }
   };
 
   return (
     <ThemeProvider theme={theme}>
+      {isError && (
+        <Alert severity="warning" variant="filled">
+          Something wrong!! Refresh the page or try again later.
+        </Alert>
+      )}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

@@ -5,15 +5,15 @@ import Box from "@mui/material/Box";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
 
 const ChangePassword = () => {
   const email_address = atob(localStorage.getItem("token"));
-  console.log(email_address);
   const [password, setpassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formSubmitMessage, setformSubmitMessage] = useState("");
-
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   const cancelCalback = () => {
@@ -22,7 +22,6 @@ const ChangePassword = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log("submit");
 
     const data = {
       email_address: email_address,
@@ -44,16 +43,21 @@ const ChangePassword = () => {
       setformSubmitMessage(resJson.data.message);
 
       if (resJson.success === true) {
-        console.log(resJson);
         navigate("/admin");
+      } else {
       }
     } catch (err) {
-      console.log(err);
+      setIsLoading(false);
+      setIsError(true);
     }
-    console.log(data);
   };
   return (
     <div>
+      {isError && (
+        <Alert severity="warning" variant="filled">
+          Something wrong!! Refresh the page or try again later.
+        </Alert>
+      )}
       <Box component="form" noValidate onSubmit={handleUpdate} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

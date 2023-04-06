@@ -54,7 +54,6 @@ function EditProfile() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log("submit");
 
     const data = {
       first_name: firstName,
@@ -76,13 +75,11 @@ function EditProfile() {
       if (resJson.success === true) {
         // setFirstName("");
         // setLastName("");
-        console.log(resJson);
         navigate("/admin");
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
-    console.log(data);
   };
   return (
     <div>

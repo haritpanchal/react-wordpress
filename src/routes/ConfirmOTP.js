@@ -2,10 +2,11 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { LoadingButton } from "@mui/lab";
+import Typography from "@mui/material/Typography";
 
 const ConfirmOTP = () => {
   const emailAddress = localStorage.getItem("email");
@@ -36,13 +37,12 @@ const ConfirmOTP = () => {
       setResendButton(false);
       setOTP("");
       if (resJson.success === true) {
-        console.log(resJson);
         setTimeout(() => {
           navigate("/confirm-otp");
         }, 2000);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -75,7 +75,7 @@ const ConfirmOTP = () => {
         setResendButton(resJson.data.resend);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   return (
@@ -110,6 +110,7 @@ const ConfirmOTP = () => {
           >
             Confirm
           </LoadingButton>
+
           {resendButton && (
             <Button
               type="button"

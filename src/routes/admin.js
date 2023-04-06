@@ -64,24 +64,28 @@ export default function Admin() {
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      const users = await fetch(
-        "http://localhost/contribution/wp-json/user/getDetails",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
+      try {
+        setIsLoading(true);
+        const users = await fetch(
+          "http://localhost/contribution/wp-json/user/getDetails",
+          {
+            method: "POST",
+            body: JSON.stringify(data),
+          }
+        );
+        let resJson = await users.json();
+        setIsLoading(false);
+        if (resJson.success === true) {
+          const { data } = resJson.data;
+          setuserFound(true);
+          setUserID(data.user_id);
+          setFirstName(data.first_name);
+          setLastName(data.second_name);
+          setEmail(data.email);
+          changeProdileBadge(data.first_name + " " + data.second_name);
         }
-      );
-      let resJson = await users.json();
-      setIsLoading(false);
-      if (resJson.success === true) {
-        const { data } = resJson.data;
-        setuserFound(true);
-        setUserID(data.user_id);
-        setFirstName(data.first_name);
-        setLastName(data.second_name);
-        setEmail(data.email);
-        changeProdileBadge(data.first_name + " " + data.second_name);
+      } catch {
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -111,7 +115,7 @@ export default function Admin() {
         navigate("/");
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
