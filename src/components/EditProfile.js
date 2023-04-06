@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../context/index";
 import { useNavigate } from "react-router-dom";
+import * as ENDPOINTS from "../Endpoints";
 
 function EditProfile() {
   const { changeProdileBadge } = useContext(Context);
@@ -24,13 +25,10 @@ function EditProfile() {
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const users = await fetch(
-        "http://localhost/contribution/wp-json/user/getDetails",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      const users = await fetch(ENDPOINTS.GET_USER_DETAILS, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
       let resJson = await users.json();
       setIsLoading(false);
       if (resJson.success === true) {
@@ -61,20 +59,15 @@ function EditProfile() {
       email_address: userEmail,
     };
     try {
-      let res = await fetch(
-        "http://localhost/contribution/wp-json/user/updateDetails",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      let res = await fetch(ENDPOINTS.UPDATE_USER, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
       let resJson = await res.json();
 
       setformSubmitMessage(resJson.data.message);
 
       if (resJson.success === true) {
-        // setFirstName("");
-        // setLastName("");
         navigate("/admin");
       }
     } catch (err) {

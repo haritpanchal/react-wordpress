@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import { GET_ALL_USERS_API } from "../Endpoints";
 
 export default function Index() {
   const [usersData, setUsersData] = useState("");
@@ -20,19 +21,16 @@ export default function Index() {
     setIsLoading(true);
     (async () => {
       try {
-        const users = await fetch(
-          "http://localhost/contribution/wp-json/auth/getAllUsers",
-          {
-            method: "POST",
-          }
-        );
+        const users = await fetch(GET_ALL_USERS_API, {
+          method: "POST",
+        });
 
         let resJson = await users.json();
         setIsLoading(false);
         setUsersData(resJson);
       } catch (err) {
         setIsLoading(false);
-        setIsError(true)
+        setIsError(true);
       }
     })();
   }, []);

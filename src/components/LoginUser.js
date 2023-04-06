@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import { LOGIN_API } from "../Endpoints";
 
 function Copyright(props) {
   return (
@@ -21,7 +22,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="" href="https://mui.com/">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -51,15 +52,13 @@ export default function LoginUser() {
     try {
       setbtnText("Loading...");
       setIsDisabled(true);
-      let res = await fetch(
-        "http://localhost/contribution/wp-json/auth/login",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      let res = await fetch(LOGIN_API, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
       let resJson = await res.json();
 
+      console.log(resJson);
       setformSubmitMessage(resJson.data.message);
       const token = resJson.data.data.id;
       if (resJson.success === true) {
@@ -76,7 +75,7 @@ export default function LoginUser() {
         setformSubmitMessage("Something wrong");
       }
     } catch (err) {
-      setIsError(true);
+      // setIsError(true);
       setbtnText("Sign In");
       setIsDisabled(false);
     }

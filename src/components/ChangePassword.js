@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import { CHANGE_PASSWORD_API } from "../Endpoints";
 
 const ChangePassword = () => {
   const email_address = atob(localStorage.getItem("token"));
@@ -30,13 +31,10 @@ const ChangePassword = () => {
     };
     try {
       setIsLoading(true);
-      let res = await fetch(
-        "http://localhost/contribution/wp-json/user/changePassword",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      let res = await fetch(CHANGE_PASSWORD_API, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
       let resJson = await res.json();
       setIsLoading(false);
 

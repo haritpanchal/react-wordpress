@@ -3,16 +3,16 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegisterUser from "./components/RegisterUser";
 import LoginUser from "./components/LoginUser";
-import Root from "./routes/root";
-import ErrorPage from "./routes/error";
-import Index from "./routes/index";
-import Admin from "./routes/admin";
-import EditProfile from "./routes/editProfile";
+import Root from "./routes/Root";
+import ErrorPage from "./routes/Error";
+import Index from "./routes/Index";
+import Admin from "./components/Admin";
+import EditProfile from "./components/EditProfile";
 import ContextProvider from "./context";
-import ChangePassword from "./routes/changePassword";
-import ForgotPassword from "./routes/ForgotPassword";
-import ConfirmOTP from "./routes/ConfirmOTP";
-import ResetPassword from "./routes/ResetPassword";
+import ChangePassword from "./components/ChangePassword";
+import ForgotPassword from "./components/ForgotPassword";
+import ConfirmOTP from "./components/ConfirmOTP";
+import ResetPassword from "./components/ResetPassword";
 
 const router = createBrowserRouter([
   {

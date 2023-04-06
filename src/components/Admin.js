@@ -18,6 +18,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import * as ENDPOPOINTS from "../Endpoints";
 
 function createData(firstName, lastName) {
   return { firstName, lastName };
@@ -66,13 +67,10 @@ export default function Admin() {
     (async () => {
       try {
         setIsLoading(true);
-        const users = await fetch(
-          "http://localhost/contribution/wp-json/user/getDetails",
-          {
-            method: "POST",
-            body: JSON.stringify(data),
-          }
-        );
+        const users = await fetch(ENDPOPOINTS.GET_USER_DETAILS, {
+          method: "POST",
+          body: JSON.stringify(data),
+        });
         let resJson = await users.json();
         setIsLoading(false);
         if (resJson.success === true) {
@@ -100,13 +98,10 @@ export default function Admin() {
     try {
       setOpen(false);
       setIsDeleteLoading(true);
-      let res = await fetch(
-        "http://localhost/contribution/wp-json/user/deleteUser",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      let res = await fetch(ENDPOPOINTS.DELETE_USER, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
       let resJson = await res.json();
 
       if (resJson.success === true) {

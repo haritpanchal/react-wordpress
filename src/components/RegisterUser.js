@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import { REGISTER_API } from "../Endpoints";
 
 function Copyright(props) {
   return (
@@ -41,6 +42,7 @@ export default function RegisterUser() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [bnText, setBtnText] = useState("Sign Up");
   const [isError, setIsError] = useState(false);
+  const [file, setFile] = useState(false);
 
   const navigate = useNavigate();
 
@@ -57,13 +59,10 @@ export default function RegisterUser() {
     try {
       setBtnText("Loading...");
       setIsDisabled(true);
-      let res = await fetch(
-        "http://localhost/contribution/wp-json/auth/register",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      let res = await fetch(REGISTER_API, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
       let resJson = await res.json();
 
       setformSubmitMessage(resJson.data.message);
@@ -78,12 +77,25 @@ export default function RegisterUser() {
         setTimeout(() => navigate("/"), 1000);
       } else {
         setformSubmitMessage(resJson.data.message);
-        setIsError(true);
       }
     } catch (err) {
       setIsDisabled(false);
       setIsError(true);
       setBtnText("Sign Up");
+    }
+  };
+
+  const handleFileChange = (e) => {
+    console.log(e.target.files);
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+  console.log(file.name);
+
+  const handleUploadClick = () => {
+    if (!file) {
+      return;
     }
   };
 
@@ -166,6 +178,17 @@ export default function RegisterUser() {
                   autoComplete="new-password"
                   onChange={(event) => setuserPassword(event.target.value)}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  onClick={handleUploadClick}
+                  variant="contained"
+                  component="label"
+                >
+                  Upload Profile
+                  <input type="file" accept="image/png, image/jpeg" hidden onChange={handleFileChange} />
+                </Button>
+                  <div>{file && `${file.name} - ${file.type}`}</div>
               </Grid>
               <Grid item xs={12}>
                 <p>{formSubmitMessage}</p>

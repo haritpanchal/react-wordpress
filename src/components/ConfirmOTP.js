@@ -2,11 +2,11 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { LoadingButton } from "@mui/lab";
-import Typography from "@mui/material/Typography";
+import { CONFIRM_OTP_API, FORGOT_PASSWORD_API } from "../Endpoints";
 
 const ConfirmOTP = () => {
   const emailAddress = localStorage.getItem("email");
@@ -24,13 +24,10 @@ const ConfirmOTP = () => {
     };
     try {
       setIsLoading(true);
-      let res = await fetch(
-        "http://localhost/contribution/wp-json/user/forgotPassword",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      let res = await fetch(FORGOT_PASSWORD_API, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
       let resJson = await res.json();
       setIsLoading(false);
       setformSubmitMessage(resJson.data.message);
@@ -55,13 +52,10 @@ const ConfirmOTP = () => {
     };
     try {
       setIsLoading(true);
-      let res = await fetch(
-        "http://localhost/contribution/wp-json/user/confirmOTP",
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-        }
-      );
+      let res = await fetch(CONFIRM_OTP_API, {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
       let resJson = await res.json();
       setIsLoading(false);
 
