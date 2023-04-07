@@ -85,7 +85,7 @@ const ResetPassword = () => {
 
         <Grid>
           <Button type="submit" variant="contained" color="success">
-            Save
+            Reset Password
           </Button>
 
           <Button

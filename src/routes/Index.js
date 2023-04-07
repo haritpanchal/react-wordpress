@@ -39,7 +39,7 @@ export default function Index() {
     return <CircularProgress />;
   }
   let usersList =
-    usersData.length > 0
+    usersData !== null && usersData.length > 0
       ? usersData.map((user) => (
           <TableRow
             key={user.id}
