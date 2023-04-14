@@ -47,16 +47,53 @@ function user_register_callback( WP_REST_Request $request ) {
 	$password     = $data['password'];
 	$roles_array  = array( 'student', 'teacher' );
 	$data['role'] = 'student';
-	if ( ! empty( $data['role'] ) ) {
-		$role = sanitize_text_field( $data['role'] );
-		if ( ! in_array( $role, $roles_array, true ) ) {
-			$response['message'] = 'Invalid user role.';
-			return wp_send_json_error( $response );
-		}
-	} else {
-		$response['message'] = 'Role can not be empty';
-		return wp_send_json_error( $response );
-	}
+
+	// if ( ! empty( $data['role'] ) ) {
+	// 	$role = sanitize_text_field( $data['role'] );
+	// 	if ( ! in_array( $role, $roles_array, true ) ) {
+	// 		$response['message'] = 'Invalid user role.';
+	// 		return wp_send_json_error( $response );
+	// 	}
+	// } else {
+	// 	$response['message'] = 'Role can not be empty';
+	// 	return wp_send_json_error( $response );
+	// }
+
+	// if ( 'teacher' === $role ) {
+	// 	$referal_code = wp_generate_password( '8', false, false );
+	// }
+	// if ( 'student' === $role ) {
+	// 	$referal_code = $request['referal_code'];
+	// 	if ( empty( $referal_code ) ) {
+	// 		$response['message'] = 'Referal code is required';
+	// 		return wp_send_json_error( $response );
+	// 	}
+	// 	$args = array(
+	// 		'role'       => 'teacher',
+	// 		'meta_key'   => 'teacher_referal_code',
+	// 		'meta_value' => $referal_code,
+	// 	);
+
+	// 	$user_query = new WP_User_Query( $args );
+
+	// 	if ( ! empty( $user_query->results ) ) {
+	// 		foreach ( $user_query->results as $user ) {
+	// 			$teacher_id                 = $user->ID;
+	// 			$teacher_number_of_accounts = (int) get_user_meta( $teacher_id, 'number_of_account_purchase', true );
+
+	// 			if ( true === $teacher_number_of_accounts > 0 ) {
+	// 				$updated_teacher_number_of_accounts = $teacher_number_of_accounts - 1;
+	// 				update_user_meta( $teacher_id, 'number_of_account_purchase', $updated_teacher_number_of_accounts );
+	// 			} else {
+	// 				$response['message'] = 'Referal code has expired';
+	// 				return wp_send_json_error( $response );
+	// 			}
+	// 		}
+	// 	} else {
+	// 		$response['message'] = 'Invalid referal code';
+	// 		return $response;
+	// 	}
+	// }
 
 	$user_id = wp_create_user( $email_address, $password, $email_address );
 
@@ -65,12 +102,19 @@ function user_register_callback( WP_REST_Request $request ) {
 		$error_message = $user_id->errors[ $error_code ][0];
 		return wp_send_json_error( $error_message );
 	} else {
+		// if ( 'teacher' === $role ) {
+		// 	update_user_meta( $user_id, 'teacher_referal_code', $referal_code );
+		// 	update_user_meta( $user_id, 'number_of_account_purchase', 10 );
+		// }
 		$response['message']        = 'User created successfully';
 		$user_data['id']            = $user_id;
 		$user_data['first_name']    = $first_name;
 		$user_data['second_name']   = $second_name;
 		$user_data['email_address'] = $email_address;
 		$user_data['role']          = $role;
+		// if ( 'teacher' === $role ) {
+		// 	$user_data['teacher_referal_code'] = $referal_code;
+		// }
 
 		$wp_user_object = new WP_User( $user_id );
 		$wp_user_object->set_role( $role );

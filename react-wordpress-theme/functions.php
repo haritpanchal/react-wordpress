@@ -25,7 +25,7 @@ function wpdocs_theme_name_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' );
 
-
 require_once get_stylesheet_directory() . '/inc/apis/routes.php';
 require_once get_stylesheet_directory() . '/inc/apis/auth-apis.php';
 require_once get_stylesheet_directory() . '/inc/apis/user-apis.php';
+require_once get_stylesheet_directory() . '/inc/meta/meta-boxes.php';
