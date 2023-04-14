@@ -26,14 +26,18 @@ function get_user_details_callback( WP_REST_Request $request ) {
 		wp_send_json_error( $response );
 	} else {
 		$user_id     = $user_obj->data->ID;
+		$role        = $user_obj->roles[1];
 		$first_name  = get_user_meta( $user_id, 'first_name', true ) ? get_user_meta( $user_id, 'first_name', true ) : '';
 		$second_name = get_user_meta( $user_id, 'last_name', true ) ? get_user_meta( $user_id, 'last_name', true ) : '';
 		$email       = $user_obj->data->user_email;
 
-		$user_data['user_id']     = $user_id;
-		$user_data['first_name']  = $first_name;
-		$user_data['second_name'] = $second_name;
-		$user_data['email']       = $email;
+		$user_data['user_id']                    = $user_id;
+		$user_data['first_name']                 = $first_name;
+		$user_data['second_name']                = $second_name;
+		$user_data['email']                      = $email;
+		$user_data['role']                       = $role;
+		$user_data['teacher_referal_code']       = get_user_meta( $user_id, 'teacher_referal_code', true ) ? get_user_meta( $user_id, 'teacher_referal_code', true ) : '';
+		$user_data['number_of_account_purchase'] = get_user_meta( $user_id, 'number_of_account_purchase', true ) ? get_user_meta( $user_id, 'number_of_account_purchase', true ) : '';
 
 		$response['message'] = 'Data listed successfully';
 		$response['data']    = $user_data;

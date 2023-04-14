@@ -36,6 +36,9 @@ export default function Admin() {
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
+  const [role, setRole] = useState("");
+  const [referalCode, setReferalCode] = useState("none");
+  const [remainingUsers, setRemainingUsers] = useState();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -61,6 +64,9 @@ export default function Admin() {
     createData("First name", firstName),
     createData("Second Name", lastName),
     createData("Email", email),
+    createData("Role", role),
+    createData("Referal Code", referalCode),
+    createData("Remaining use of referal code", remainingUsers)
   ];
 
   useEffect(() => {
@@ -80,6 +86,9 @@ export default function Admin() {
           setFirstName(data.first_name);
           setLastName(data.second_name);
           setEmail(data.email);
+          setRole(data.role)
+          setReferalCode(data.teacher_referal_code);
+          setRemainingUsers(data.number_of_account_purchase)
           changeProdileBadge(data.first_name + " " + data.second_name);
         }
       } catch {

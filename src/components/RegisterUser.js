@@ -11,6 +11,10 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 import { REGISTER_API } from "../Endpoints";
 
 function Copyright(props) {
@@ -42,19 +46,28 @@ export default function RegisterUser() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [bnText, setBtnText] = useState("Sign Up");
   const [isError, setIsError] = useState(false);
+  const [role, setRole] = useState("");
+  const [referalCode, setReferalCode] = useState("none");
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     setformSubmitMessage("");
     event.preventDefault();
+    let roleData = null;
 
+    if (role === "student") {
+      roleData = referalCode;
+    }
     const data = {
       first_name: firstName,
       second_name: lastName,
       email_address: userEmail,
       password: userPassword,
+      role: role,
+      referal_code: roleData,
     };
+
     try {
       setBtnText("Loading...");
       setIsDisabled(true);
@@ -72,6 +85,8 @@ export default function RegisterUser() {
         setlastName("");
         setuserEmail("");
         setuserPassword("");
+        setRole("");
+        setReferalCode("");
 
         setTimeout(() => navigate("/"), 1000);
       } else {
@@ -82,6 +97,10 @@ export default function RegisterUser() {
       setIsError(true);
       setBtnText("Sign Up");
     }
+  };
+
+  const handleChange = (event) => {
+    setRole(event.target.value);
   };
 
   return (
@@ -164,6 +183,37 @@ export default function RegisterUser() {
                   onChange={(event) => setuserPassword(event.target.value)}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={role}
+                    label="Age"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="student">Student</MenuItem>
+                    <MenuItem value="teacher">Teacher</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              {role === "student" && (
+                <Grid item xs={12}>
+                  <TextField
+                    autoComplete="given-name"
+                    name="referalCode"
+                    value={referalCode}
+                    required
+                    fullWidth
+                    id="referalCode"
+                    label="Enter Referal Code"
+                    autoFocus
+                    onChange={(event) => setReferalCode(event.target.value)}
+                  />
+                </Grid>
+              )}
+
               <Grid item xs={12}>
                 <p>{formSubmitMessage}</p>
               </Grid>
