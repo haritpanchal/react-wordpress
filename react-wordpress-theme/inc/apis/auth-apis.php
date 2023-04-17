@@ -63,7 +63,7 @@ function user_register_callback( WP_REST_Request $request ) {
 		$referal_code = wp_generate_password( '8', false, false );
 	}
 	if ( 'student' === $role ) {
-		$referal_code = $request['referal_code'];
+		$referal_code = $data['referal_code'];
 		if ( empty( $referal_code ) ) {
 			$response['message'] = 'Referal code is required';
 			return wp_send_json_error( $response );
@@ -91,7 +91,7 @@ function user_register_callback( WP_REST_Request $request ) {
 			}
 		} else {
 			$response['message'] = 'Invalid referal code';
-			return $response;
+			return wp_send_json_error( $response );
 		}
 	}
 
@@ -181,6 +181,7 @@ function get_all_users_callback( WP_REST_Request $request ) {
 		$user_meta                               = get_user_meta( $user->data->ID );
 		$user_data['id']                         = $user->data->ID;
 		$user_data['email']                      = $user->data->user_email;
+		$user_data['role']                       = ucfirst( $user->roles[1] );
 		$user_data['first_name']                 = get_user_meta( $user_data['id'], 'first_name', true ) ? get_user_meta( $user_data['id'], 'first_name', true ) : '';
 		$user_data['last_name']                  = get_user_meta( $user_data['id'], 'last_name', true ) ? get_user_meta( $user_data['id'], 'last_name', true ) : '';
 		$user_data['teacher_referal_code']       = get_user_meta( $user_data['id'], 'teacher_referal_code', true ) ? get_user_meta( $user_data['id'], 'teacher_referal_code', true ) : '';

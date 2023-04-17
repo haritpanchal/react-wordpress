@@ -93,8 +93,9 @@ export default function RegisterUser() {
         setformSubmitMessage(resJson.data.message);
       }
     } catch (err) {
+      console.log(err);
       setIsDisabled(false);
-      setIsError(true);
+      // setIsError(true);
       setBtnText("Sign Up");
     }
   };
@@ -105,11 +106,11 @@ export default function RegisterUser() {
 
   return (
     <ThemeProvider theme={theme}>
-      {isError && (
+      {/* {isError && (
         <Alert severity="warning" variant="filled">
           Something wrong!! Refresh the page or try again later.
         </Alert>
-      )}
+      )} */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

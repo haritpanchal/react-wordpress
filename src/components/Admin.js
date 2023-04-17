@@ -20,8 +20,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import * as ENDPOPOINTS from "../Endpoints";
 
-function createData(firstName, lastName) {
-  return { firstName, lastName };
+function createData(dataKey, dataVal) {
+  return { dataKey, dataVal };
 }
 
 export default function Admin() {
@@ -66,7 +66,7 @@ export default function Admin() {
     createData("Email", email),
     createData("Role", role),
     createData("Referal Code", referalCode),
-    createData("Remaining use of referal code", remainingUsers)
+    createData("Remaining use of referal code", remainingUsers),
   ];
 
   useEffect(() => {
@@ -86,9 +86,9 @@ export default function Admin() {
           setFirstName(data.first_name);
           setLastName(data.second_name);
           setEmail(data.email);
-          setRole(data.role)
+          setRole(data.role);
           setReferalCode(data.teacher_referal_code);
-          setRemainingUsers(data.number_of_account_purchase)
+          setRemainingUsers(data.number_of_account_purchase);
           changeProdileBadge(data.first_name + " " + data.second_name);
         }
       } catch {
@@ -130,17 +130,23 @@ export default function Admin() {
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.firstName}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.firstName}
-                    </TableCell>
-                    <TableCell align="left">{row.lastName}</TableCell>
-                  </TableRow>
-                ))}
+                {rows.map((row) => {
+                  if (row.dataVal !== "") {
+                    return (
+                      <TableRow
+                        key={row.dataKey}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {row.dataKey}
+                        </TableCell>
+                        <TableCell align="left">{row.dataVal}</TableCell>
+                      </TableRow>
+                    );
+                  }
+                })}
               </TableBody>
             </Table>
           </TableContainer>

@@ -57,6 +57,9 @@ export default function Index() {
             <TableCell component="th" scope="row">
               {user.last_name}
             </TableCell>
+            <TableCell component="th" scope="row">
+              {user.role}
+            </TableCell>
           </TableRow>
         ))
       : "";
@@ -77,6 +80,7 @@ export default function Index() {
                     <TableCell>Email</TableCell>
                     <TableCell>First Name</TableCell>
                     <TableCell>Last Name</TableCell>
+                    <TableCell>Role</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>{usersList}</TableBody>
