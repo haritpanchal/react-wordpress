@@ -37,7 +37,7 @@ function get_user_details_callback( WP_REST_Request $request ) {
 		$user_data['email']                      = $email;
 		$user_data['role']                       = ucfirst( $role );
 		$user_data['teacher_referal_code']       = get_user_meta( $user_id, 'teacher_referal_code', true ) ? get_user_meta( $user_id, 'teacher_referal_code', true ) : '';
-		$user_data['number_of_account_purchase'] = get_user_meta( $user_id, 'number_of_account_purchase', true ) ? get_user_meta( $user_id, 'number_of_account_purchase', true ) : '';
+		$user_data['number_of_account_purchase'] = get_user_meta( $user_id, 'number_of_account_purchase', true ) ? get_user_meta( $user_id, 'number_of_account_purchase', true ) : 0;
 
 		$response['message'] = 'Data listed successfully';
 		$response['data']    = $user_data;

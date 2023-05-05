@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
-import Alert from "@mui/material/Alert";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
@@ -45,7 +44,6 @@ export default function RegisterUser() {
   const [formSubmitMessage, setformSubmitMessage] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [bnText, setBtnText] = useState("Sign Up");
-  const [isError, setIsError] = useState(false);
   const [role, setRole] = useState("");
   const [referalCode, setReferalCode] = useState("none");
 
@@ -95,7 +93,6 @@ export default function RegisterUser() {
     } catch (err) {
       console.log(err);
       setIsDisabled(false);
-      // setIsError(true);
       setBtnText("Sign Up");
     }
   };
@@ -106,11 +103,6 @@ export default function RegisterUser() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* {isError && (
-        <Alert severity="warning" variant="filled">
-          Something wrong!! Refresh the page or try again later.
-        </Alert>
-      )} */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

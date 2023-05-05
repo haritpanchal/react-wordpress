@@ -177,7 +177,36 @@ function get_all_users_callback( WP_REST_Request $request ) {
 	$user_count     = 0;
 	$eligible_users = get_users( array( 'role__in' => array( 'student', 'teacher' ) ) );
 
-	foreach ( $eligible_users as $user ) {
+	$standard = $request['standard'] ? $request['standard'] : '';
+	$medium   = $request['medium'] ? $request['medium'] : '';
+
+	$args = array(
+		'role__in' => array( 'student', 'teacher' ),
+	);
+	if ( ! empty( $standard ) ) {
+		$standard_meta['key']     = 'standard';
+		$standard_meta['value']   = $standard;
+		$standard_meta['compare'] = '=';
+	}
+	if ( ! empty( $medium ) ) {
+		$medium_meta['key']     = 'medium';
+		$medium_meta['value']   = $medium;
+		$medium_meta['compare'] = '=';
+	}
+
+	if ( ! empty( $standard ) || ! empty( $medium ) ) {
+		$args['meta_query'] = array(
+			'relation' => 'AND',
+			$standard_meta,
+			$medium_meta,
+
+		);
+	}
+
+	// print_r($args);exit;
+	$users_query = new WP_User_Query( $args );
+
+	foreach ( $users_query->results as $user ) {
 		$user_meta                               = get_user_meta( $user->data->ID );
 		$user_data['id']                         = $user->data->ID;
 		$user_data['email']                      = $user->data->user_email;
@@ -186,6 +215,8 @@ function get_all_users_callback( WP_REST_Request $request ) {
 		$user_data['last_name']                  = get_user_meta( $user_data['id'], 'last_name', true ) ? get_user_meta( $user_data['id'], 'last_name', true ) : '';
 		$user_data['teacher_referal_code']       = get_user_meta( $user_data['id'], 'teacher_referal_code', true ) ? get_user_meta( $user_data['id'], 'teacher_referal_code', true ) : '';
 		$user_data['number_of_account_purchase'] = get_user_meta( $user_data['id'], 'number_of_account_purchase', true ) ? get_user_meta( $user_data['id'], 'number_of_account_purchase', true ) : '';
+		$user_data['standard']                   = get_field( 'standard', 'user_' . $user_data['id'], ) ? get_field( 'standard', 'user_' . $user_data['id'], ) : '';
+		$user_data['medium']                     = get_field( 'medium', 'user_' . $user_data['id'], ) ? get_field( 'medium', 'user_' . $user_data['id'], ) : '';
 		$user_details[ $user_count ]             = $user_data;
 
 		$user_count++;
