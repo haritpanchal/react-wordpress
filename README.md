@@ -6,8 +6,9 @@ This repository shows integration of React with WordPress
 2. Change directory `cd/react-wordpress`.
 3. Run `npm install`.
 4. Move `react-wordpress-theme` to your WordPress setup `/wp-content/themes/` and **Activate** the theme.
-5. Run `npm start` at your repo location (react-wordpress).
-6. Voila! 
+5. Change **WP_URL** to your WordPress url to src/WPConfig.js.
+6. Run `npm start` at your repo location (react-wordpress).
+7. Voila! 
 
 # How it works:
 
