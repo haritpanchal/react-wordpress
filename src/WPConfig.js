@@ -1,1 +1,1 @@
-export const WP_URL = "http://localhost/wordpress/wp-json";
+export const WP_URL = "http://localhost/contribution/wp-json";
