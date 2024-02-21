@@ -215,8 +215,8 @@ function get_all_users_callback( WP_REST_Request $request ) {
 		$user_data['last_name']                  = get_user_meta( $user_data['id'], 'last_name', true ) ? get_user_meta( $user_data['id'], 'last_name', true ) : '';
 		$user_data['teacher_referal_code']       = get_user_meta( $user_data['id'], 'teacher_referal_code', true ) ? get_user_meta( $user_data['id'], 'teacher_referal_code', true ) : '';
 		$user_data['number_of_account_purchase'] = get_user_meta( $user_data['id'], 'number_of_account_purchase', true ) ? get_user_meta( $user_data['id'], 'number_of_account_purchase', true ) : '';
-		$user_data['standard']                   = get_field( 'standard', 'user_' . $user_data['id'], ) ? get_field( 'standard', 'user_' . $user_data['id'], ) : '';
-		$user_data['medium']                     = get_field( 'medium', 'user_' . $user_data['id'], ) ? get_field( 'medium', 'user_' . $user_data['id'], ) : '';
+		$user_data['standard']                   = '';
+		$user_data['medium']                     = '';
 		$user_details[ $user_count ]             = $user_data;
 
 		$user_count++;
